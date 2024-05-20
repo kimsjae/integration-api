@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import shop.mtcoding.blog._core.utils.JwtUtil;
 import shop.mtcoding.blog.board.BoardRequest;
 import shop.mtcoding.blog.reply.ReplyRequest;
@@ -28,12 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc // MockMvc IoC 로드
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK) // 모든 빈 IoC 로드
-public class ReplyControllerTest {
+public class ReplyControllerTest extends MyRestDoc{
 
     private ObjectMapper om = new ObjectMapper();
-
-    @Autowired
-    private MockMvc mvc;
 
     private static String jwt;
 
@@ -85,6 +83,7 @@ public class ReplyControllerTest {
         actions.andExpect(jsonPath("$.msg").value("성공"));
         actions.andExpect(jsonPath("$.body.comment").value("추가댓글"));
         actions2.andExpect(jsonPath("$.body.replies[0].comment").value("추가댓글"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -112,5 +111,6 @@ public class ReplyControllerTest {
         // then
         actions.andExpect(jsonPath("$.status").value(404));
         actions.andExpect(jsonPath("$.msg").value("없는 게시글에 댓글을 작성할 수 없어요"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }

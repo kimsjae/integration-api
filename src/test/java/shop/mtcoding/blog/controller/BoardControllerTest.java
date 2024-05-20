@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import shop.mtcoding.blog._core.utils.JwtUtil;
 import shop.mtcoding.blog.board.BoardRequest;
 import shop.mtcoding.blog.user.SessionUser;
@@ -30,12 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc // MockMvc IoC 로드
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK) // 모든 빈 IoC 로드
-public class BoardControllerTest {
+public class BoardControllerTest extends MyRestDoc{
 
     private ObjectMapper om = new ObjectMapper();
-
-    @Autowired
-    private MockMvc mvc;
 
     private static String jwt;
 
@@ -70,6 +68,7 @@ public class BoardControllerTest {
         actions.andExpect(jsonPath("$.body[0].id").value(4));
         actions.andExpect(jsonPath("$.body.length()").value(4));
         actions.andExpect(jsonPath("$.body[0].title").value("제목4"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -93,6 +92,7 @@ public class BoardControllerTest {
         actions.andExpect(jsonPath("$.body.content").value("내용4"));
         actions.andExpect(jsonPath("$.body.replies[0].owner").value(false));
         actions.andExpect(jsonPath("$.body.replies[0].userId").value(2));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
     }
 
@@ -114,6 +114,7 @@ public class BoardControllerTest {
         // then
         actions.andExpect(jsonPath("$.status").value(404));
         actions.andExpect(jsonPath("$.msg").value("게시글을 찾을 수 없습니다"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -136,6 +137,7 @@ public class BoardControllerTest {
         actions.andExpect(jsonPath("$.msg").value("성공"));
         actions.andExpect(jsonPath("$.body.title").value("제목4"));
         actions.andExpect(jsonPath("$.body.content").value("내용4"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -156,6 +158,7 @@ public class BoardControllerTest {
         // then
         actions.andExpect(jsonPath("$.status").value(404));
         actions.andExpect(jsonPath("$.msg").value("게시글을 찾을 수 없습니다"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -187,6 +190,7 @@ public class BoardControllerTest {
         actions.andExpect(jsonPath("$.msg").value("성공"));
         actions.andExpect(jsonPath("$.body.title").value("제목5"));
         actions.andExpect(jsonPath("$.body.content").value("내용5"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -216,6 +220,7 @@ public class BoardControllerTest {
         // then
         actions.andExpect(jsonPath("$.status").value(400));
         actions.andExpect(jsonPath("$.msg").value("제목은 공백일 수 없습니다 : title"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -248,6 +253,7 @@ public class BoardControllerTest {
         actions.andExpect(jsonPath("$.msg").value("성공"));
         actions.andExpect(jsonPath("$.body.title").value("제목1 수정"));
         actions.andExpect(jsonPath("$.body.content").value("내용1 수정"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -278,6 +284,7 @@ public class BoardControllerTest {
         // then
         actions.andExpect(jsonPath("$.status").value(403));
         actions.andExpect(jsonPath("$.msg").value("게시글을 수정할 권한이 없습니다"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 //        actions.andExpect(jsonPath("$.body.title").value("제목1 수정"));
 //        actions.andExpect(jsonPath("$.body.content").value("내용1 수정"));
     }
@@ -304,6 +311,7 @@ public class BoardControllerTest {
         // then
         actions.andExpect(jsonPath("$.status").value(200));
         actions.andExpect(jsonPath("$.msg").value("성공"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 //        actions.andExpect(jsonPath("$.body.title").value("제목1 수정"));
 //        actions.andExpect(jsonPath("$.body.content").value("내용1 수정"));
     }

@@ -56,20 +56,16 @@ ext {
 	set('snippetsDir', file("build/generated-snippets"))
 }
 
-tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
-}
-
+// src/docs 이하면 *.adoc 파일을 테스트 시에 찾아내서 html 파일 생성해줌
 tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
 }
 
+// jar에 api.html 옮기는 코드
 bootJar {
 	dependsOn asciidoctor
 	copy {
-		// src/docs/asciidoc == from 경로
 		from "${asciidoctor.outputDir}"
 		into 'src/main/resources/static/docs' // /static/docs로 복사!
 	}

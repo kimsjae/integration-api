@@ -16,15 +16,16 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.nio.charset.StandardCharsets;
 @ExtendWith({ SpringExtension.class, RestDocumentationExtension.class })
 public class MyRestDoc {
-    protected MockMvc mockMvc;
+    protected MockMvc mvc;
     protected RestDocumentationResultHandler document;
+
     @BeforeEach
     public void setup(WebApplicationContext webApplicationContext,
-                       RestDocumentationContextProvider restDocumentation) {
+                      RestDocumentationContextProvider restDocumentation) {
         this.document = MockMvcRestDocumentation.document("{class-name}/{method-name}",
                 Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                 Preprocessors.preprocessResponse(Preprocessors.prettyPrint()));
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .addFilter(new CharacterEncodingFilter(StandardCharsets.UTF_8.name(),
                         true))
                 .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))

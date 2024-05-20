@@ -31,11 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest extends MyRestDoc {
 
     private ObjectMapper om = new ObjectMapper();
-
-    @Autowired
-    private MockMvc mvc;
-
-
     private static String jwt;
 
     @BeforeAll
@@ -110,6 +105,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.body.id").value(1));
         actions.andExpect(jsonPath("$.body.username").value("ssar"));
         actions.andExpect(jsonPath("$.body.email").value("egdg@naver.com"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -133,6 +129,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.body.id").value(2));
         actions.andExpect(jsonPath("$.body.username").value("cos"));
         actions.andExpect(jsonPath("$.body.email").value("cos@nate.com"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
 
@@ -166,6 +163,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.body.id").value(4));
         actions.andExpect(jsonPath("$.body.username").value("haha"));
         actions.andExpect(jsonPath("$.body.email").value("haha@nate.com"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -196,6 +194,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.status").value(400));
         actions.andExpect(jsonPath("$.msg").value("중복된 유저네임입니다"));
         actions.andExpect(jsonPath("$.body").isEmpty());
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     // {"status":400,"msg":"영문/숫자 2~20자 이내로 작성해주세요 : username","body":null}
@@ -228,6 +227,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.status").value(400));
         actions.andExpect(jsonPath("$.msg").value("영문/숫자 2~20자 이내로 작성해주세요 : username"));
         actions.andExpect(jsonPath("$.body").isEmpty());
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -258,6 +258,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.status").value(200));
         actions.andExpect(jsonPath("$.msg").value("성공"));
         actions.andExpect(jsonPath("$.body").isEmpty());
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -282,5 +283,6 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.status").value(401));
         actions.andExpect(jsonPath("$.msg").value("인증되지 않았습니다"));
         actions.andExpect(jsonPath("$.body").isEmpty());
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }
